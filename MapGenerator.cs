@@ -46,83 +46,94 @@ namespace MapGenerator
                     SizeX = 74;
                     SizeY = 46;
 
-                    SmallContinentSize = 5;
-                    MediumContinentClusterPoints = 7;
-                    LargeContinentSize = 10;
-                    HugeContinentSize = 15;
+                    SmallContinentSize = 1;
+                    MediumContinentClusterPoints = 2;
+                    LargeContinentSize = 3;
+                    HugeContinentSize = 4;
+                    IslandSize = 2;
 
-                    SmallContinentPoints = 3;
-                    MediumContinentPoints = 5;
-                    LargeContinentPoints = 7;
-                    HugeContinentSize = 10;
+                    SmallContinentPoints = 1;
+                    MediumContinentPoints = 2;
+                    LargeContinentPoints = 3;
+                    HugeContinentPoints = 4;
 
-                    SmallContinentClusterPoints = 4;
-                    MediumContinentClusterPoints = 6;
-                    LargeContinentClusterPoints = 8;
-                    HugeContinentClusterPoints = 10;
+                    SmallContinentClusterPoints = 1;
+                    MediumContinentClusterPoints = 2;
+                    LargeContinentClusterPoints = 4;
+                    HugeContinentClusterPoints = 6;
+                    IslandPoints = 1;
                     break;
                 case MapSize.medium:
                     SizeX = 84;
                     SizeY = 54;
 
-                    SmallContinentSize = 7;
-                    MediumContinentClusterPoints = 10;
-                    LargeContinentSize = 13;
-                    HugeContinentSize = 17;
+                    SmallContinentSize = 2;
+                    MediumContinentClusterPoints = 3;
+                    LargeContinentSize = 4;
+                    HugeContinentSize = 5;
+                    IslandSize = 2;
 
-                    SmallContinentPoints = 5;
-                    MediumContinentPoints = 7;
-                    LargeContinentPoints = 10;
-                    HugeContinentSize = 13;
+                    SmallContinentPoints = 2;
+                    MediumContinentPoints = 3;
+                    LargeContinentPoints = 4;
+                    HugeContinentPoints = 5;
 
-                    SmallContinentClusterPoints = 6;
-                    MediumContinentClusterPoints = 8;
-                    LargeContinentClusterPoints = 10;
-                    HugeContinentClusterPoints = 12;
+                    SmallContinentClusterPoints = 1;
+                    MediumContinentClusterPoints = 2;
+                    LargeContinentClusterPoints = 3;
+                    HugeContinentClusterPoints = 4;
+                    IslandPoints = 2;
                     break;
                 case MapSize.large:
                     SizeX = 96;
                     SizeY = 60;
 
-                    SmallContinentSize = 10;
-                    MediumContinentClusterPoints = 12;
-                    LargeContinentSize = 15;
-                    HugeContinentSize = 20;
+                    SmallContinentSize = 3;
+                    MediumContinentClusterPoints = 4;
+                    LargeContinentSize = 5;
+                    HugeContinentSize = 6;
+                    IslandSize = 3;
 
-                    SmallContinentPoints = 7;
-                    MediumContinentPoints = 10;
-                    LargeContinentPoints = 12;
-                    HugeContinentSize = 15;
+                    SmallContinentPoints = 3;
+                    MediumContinentPoints = 4;
+                    LargeContinentPoints = 5;
+                    HugeContinentPoints = 6;
 
-                    SmallContinentClusterPoints = 8;
-                    MediumContinentClusterPoints = 10;
-                    LargeContinentClusterPoints = 12;
-                    HugeContinentClusterPoints = 14;
+                    SmallContinentClusterPoints = 2;
+                    MediumContinentClusterPoints = 4;
+                    LargeContinentClusterPoints = 6;
+                    HugeContinentClusterPoints = 8;
+                    IslandPoints = 3;
                     break;
                 case MapSize.huge:
                     SizeX = 106;
                     SizeY = 66;
 
-                    SmallContinentSize = 13;
-                    MediumContinentClusterPoints = 15;
-                    LargeContinentSize = 20;
-                    HugeContinentSize = 23;
+                    SmallContinentSize = 4;
+                    MediumContinentClusterPoints = 5;
+                    LargeContinentSize = 6;
+                    HugeContinentSize = 7;
+                    IslandSize = 3;
 
-                    SmallContinentPoints = 10;
-                    MediumContinentPoints = 12;
-                    LargeContinentPoints = 15;
-                    HugeContinentSize = 18;
+                    SmallContinentPoints = 4;
+                    MediumContinentPoints = 5;
+                    LargeContinentPoints = 6;
+                    HugeContinentPoints = 7;
 
-                    SmallContinentClusterPoints = 10;
-                    MediumContinentClusterPoints = 12;
-                    LargeContinentClusterPoints = 14;
-                    HugeContinentClusterPoints = 16;
+                    SmallContinentClusterPoints = 2;
+                    MediumContinentClusterPoints = 4;
+                    LargeContinentClusterPoints = 6;
+                    HugeContinentClusterPoints = 8;
+                    IslandPoints = 4;
                     break;
             }
 
             WType = wt;
         }
-
+        /// <summary>
+        /// Generate a new Map
+        /// </summary>
+        /// <returns>Generated Map</returns>
         public GameMap Generate()
         {
             switch(WType)
@@ -146,19 +157,14 @@ namespace MapGenerator
             MapConsolidator mc = new MapConsolidator();
 
             //Left Side of Planet
-            Land.AddRange(lmg.GenerateContinent(SizeX / 4, SizeY / 8, HugeContinentPoints, HugeContinentSize, HugeContinentClusterPoints)); //Canada
-            Land.AddRange(lmg.GenerateContinent(SizeX / 4, SizeY / 4, HugeContinentPoints, HugeContinentSize, HugeContinentClusterPoints)); //North America
+            Land.AddRange(lmg.GenerateContinent(SizeX / 4, SizeY / 4, MediumContinentPoints, MediumContinentSize, MediumContinentClusterPoints)); //North America
             Land.AddRange(lmg.GenerateContinent(SizeX / 4, SizeY / 2, SmallContinentPoints, SmallContinentSize, SmallContinentClusterPoints)); //Central America
-            Land.AddRange(lmg.GenerateContinent(SizeX / 4, SizeY * 3/ 4, HugeContinentPoints, HugeContinentSize, HugeContinentClusterPoints)); //South America
+            Land.AddRange(lmg.GenerateContinent(SizeX / 4, SizeY * 3/ 4, MediumContinentPoints, MediumContinentSize, MediumContinentClusterPoints)); //South America
             //Right Side of Planet
             Land.AddRange(lmg.GenerateContinent(SizeX * 7 / 8, SizeY / 4, HugeContinentPoints, HugeContinentSize, HugeContinentClusterPoints)); //Asia
-            Land.AddRange(lmg.GenerateContinent(SizeX * 3 / 4, SizeY / 3, MediumContinentPoints, MediumContinentSize, MediumContinentClusterPoints)); //Eastern Europe
-            Land.AddRange(lmg.GenerateContinent(SizeX * 2 / 3, SizeY / 2, MediumContinentPoints, MediumContinentSize, MediumContinentClusterPoints)); //Europe
-            Land.AddRange(lmg.GenerateContinent(SizeX * 2 / 3, SizeY * 3 / 4, HugeContinentPoints, HugeContinentSize, HugeContinentClusterPoints)); //Africa
+            Land.AddRange(lmg.GenerateContinent(SizeX * 2 / 3, SizeY / 2, SmallContinentPoints, SmallContinentSize, SmallContinentClusterPoints)); //Europe
+            Land.AddRange(lmg.GenerateContinent(SizeX * 2 / 3, SizeY * 3 / 4, MediumContinentPoints, MediumContinentSize, MediumContinentClusterPoints)); //Africa
             Land.AddRange(lmg.GenerateContinent(SizeX * 3 / 4, SizeY * 3 / 4, SmallContinentPoints, SmallContinentSize, SmallContinentClusterPoints)); //Oceania
-            //SouthPole
-            Land.AddRange(lmg.GenerateContinent(SizeX / 2, SizeY, SmallContinentPoints, SmallContinentSize, SmallContinentClusterPoints)); //Antartica Land
-            Land.AddRange(lmg.GenerateIceCaps(SizeX, SizeY));
             //Deserts
             Desert.AddRange(lmg.GenerateDesert(Land, IslandPoints));
             Desert.AddRange(lmg.GenerateDesert(Land, IslandPoints));
@@ -169,10 +175,13 @@ namespace MapGenerator
             Swamp.AddRange(lmg.GenerateSwamp(Land, IslandPoints));
             //Ocean
             Ocean.AddRange(lmg.GenerateOcean(SizeX, SizeY));
+            //SouthPole
+            Land.AddRange(lmg.GenerateContinent(SizeX / 2, SizeY, SmallContinentPoints, SmallContinentSize, SmallContinentClusterPoints)); //Antartica Land
+            Land.AddRange(lmg.GenerateIceCaps(SizeX, SizeY));
 
             Land = mc.ConsolidateGroupPoints(new List<PointGroup>() { Ocean, Land, Desert, Swamp });
+            Land = MapWrap(Land, SizeX);
             return ColorMap(Land, SizeX, SizeY);
-
         }
 
         /// <summary>
