@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace MapGenerator
 {
+    public delegate void GeneratorUpdateEventHandler (object sender, string print);
+
     public enum MapSize { small, medium, large, huge }
     public enum WorldType { Terran, Desert, Volcanic, Swamp, Ice}
     /// <summary>
@@ -34,6 +36,9 @@ namespace MapGenerator
         int HugeContinentClusterPoints { get; set; }
 
         WorldType WType { get; set; }
+
+        public event GeneratorUpdateEventHandler DrawLandMassStartEvent;
+        public event GeneratorUpdateEventHandler DrawLandMassFinishEvent;
 
         public MapGen()
         { }
@@ -157,6 +162,7 @@ namespace MapGenerator
             MapConsolidator mc = new MapConsolidator();
 
             //Left Side of Planet
+            DrawLandMassStartEvent?.Invoke(this, "Continents");
             Land.AddRange(lmg.GenerateContinent(SizeX / 4, SizeY / 4, MediumContinentPoints, MediumContinentSize, MediumContinentClusterPoints)); //North America
             Land.AddRange(lmg.GenerateContinent(SizeX / 4, SizeY / 2, SmallContinentPoints, SmallContinentSize, SmallContinentClusterPoints)); //Central America
             Land.AddRange(lmg.GenerateContinent(SizeX / 4, SizeY * 3/ 4, MediumContinentPoints, MediumContinentSize, MediumContinentClusterPoints)); //South America
@@ -165,23 +171,42 @@ namespace MapGenerator
             Land.AddRange(lmg.GenerateContinent(SizeX * 2 / 3, SizeY / 2, SmallContinentPoints, SmallContinentSize, SmallContinentClusterPoints)); //Europe
             Land.AddRange(lmg.GenerateContinent(SizeX * 2 / 3, SizeY * 3 / 4, MediumContinentPoints, MediumContinentSize, MediumContinentClusterPoints)); //Africa
             Land.AddRange(lmg.GenerateContinent(SizeX * 3 / 4, SizeY * 3 / 4, SmallContinentPoints, SmallContinentSize, SmallContinentClusterPoints)); //Oceania
+            DrawLandMassFinishEvent?.Invoke(this, "Continents");
             //Deserts
+            DrawLandMassStartEvent?.Invoke(this, "Desert");
             Desert.AddRange(lmg.GenerateDesert(Land, IslandPoints));
             Desert.AddRange(lmg.GenerateDesert(Land, IslandPoints));
             Desert.AddRange(lmg.GenerateDesert(Land, IslandPoints));
+            DrawLandMassFinishEvent?.Invoke(this, "Desert");
             //Swamp
+            DrawLandMassStartEvent?.Invoke(this, "Swamp");
             Swamp.AddRange(lmg.GenerateSwamp(Land, IslandPoints));
             Swamp.AddRange(lmg.GenerateSwamp(Land, IslandPoints));
             Swamp.AddRange(lmg.GenerateSwamp(Land, IslandPoints));
+            DrawLandMassFinishEvent?.Invoke(this, "Swamp");
             //Ocean
+            DrawLandMassStartEvent?.Invoke(this, "Ocean");
             Ocean.AddRange(lmg.GenerateOcean(SizeX, SizeY));
+            DrawLandMassFinishEvent?.Invoke(this, "Ocean");
             //SouthPole
+            DrawLandMassStartEvent?.Invoke(this, "Polar caps");
             Land.AddRange(lmg.GenerateContinent(SizeX / 2, SizeY, SmallContinentPoints, SmallContinentSize, SmallContinentClusterPoints)); //Antartica Land
             Land.AddRange(lmg.GenerateIceCaps(SizeX, SizeY));
+            DrawLandMassFinishEvent?.Invoke(this, "Polar caps");
 
+            DrawLandMassStartEvent?.Invoke(this, "Consildated Map");
             Land = mc.ConsolidateGroupPoints(new List<PointGroup>() { Ocean, Land, Desert, Swamp });
+            DrawLandMassFinishEvent?.Invoke(this, "Consildated Map");
+
+            DrawLandMassStartEvent?.Invoke(this, "Wrap Map");
             Land = MapWrap(Land, SizeX);
-            return ColorMap(Land, SizeX, SizeY);
+            DrawLandMassFinishEvent?.Invoke(this, "Wrap Map");
+
+            DrawLandMassStartEvent?.Invoke(this, "Color map");
+            GameMap gamemap = ColorMap(Land, SizeX, SizeY);
+            DrawLandMassFinishEvent?.Invoke(this, "Color map");
+
+            return gamemap;
         }
 
         /// <summary>

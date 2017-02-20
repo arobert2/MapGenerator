@@ -11,6 +11,10 @@ namespace MapGenerator
     /// </summary>
     public enum MapElevation { DeepOcean = -2, ShallowOcean = -1, Ground = 0, Hill = 1, Mountain = 2 }
     /// <summary>
+    /// Settlement displays.
+    /// </summary>
+    public enum SettlementDisplay { NONE, Village, Town, City, CityBlock }
+    /// <summary>
     /// MapPoint object.
     /// </summary>
     public class MapPoint
@@ -31,6 +35,10 @@ namespace MapGenerator
         /// Elevation Texture
         /// </summary>
         public MapElevation Elevation { get; set; } = MapElevation.Ground;
+        /// <summary>
+        /// Settlment to display on world map.
+        /// </summary>
+        public SettlementDisplay Settlement { get; set; } = SettlementDisplay.NONE;
 
         public MapPoint()
         {
